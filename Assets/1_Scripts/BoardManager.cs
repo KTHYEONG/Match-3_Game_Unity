@@ -19,6 +19,12 @@ public class BoardManager : MonoBehaviour
 
     public void InitializeBoard()
     {
+        board = new GameObject[boardHeight][];
+        for (int i = 0; i < boardHeight;i++)
+        {
+            board[i] = new GameObject[boardWidth];
+        }
+
         for (int i = 0; i < boardHeight; i++)
         {
             for (int j = 0; j < boardWidth; j++)
