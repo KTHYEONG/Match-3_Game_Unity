@@ -2,16 +2,12 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    public static BoardManager mInstance = null;
-    public static BoardManager instance
+    public static BoardManager instance = null;
+    private void Awake()
     {
-        get
+        if (instance == null)
         {
-            if (mInstance == null)
-            {
-                mInstance = new BoardManager();
-            }
-            return mInstance;
+            instance = this;
         }
     }
 
