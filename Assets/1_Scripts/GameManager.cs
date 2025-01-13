@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        
+        StartGame();
     }
     private void Update()
     {
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-
+        BoardManager.instance.InitializeBoard();
     }
     public void PauseGame()
     {
