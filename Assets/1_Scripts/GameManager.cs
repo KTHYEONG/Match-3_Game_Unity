@@ -18,4 +18,17 @@ public class GameManager : MonoBehaviour
     {
         
     }
+
+    public void StartGame()
+    {
+
+    }
+    public void PauseGame()
+    {
+
+    }
+    public void EndGame()
+    {
+
+    }
 }
