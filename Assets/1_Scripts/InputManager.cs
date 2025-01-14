@@ -52,19 +52,7 @@ public class InputManager
             Mathf.RoundToInt(firstWorldPos.y));
         Vector2Int secondTilePos = new Vector2Int(Mathf.RoundToInt(secondWorldPos.x),
             Mathf.RoundToInt(secondWorldPos.y));
-
-        bool isRightRange = BoardManager.instance.CheckValidRange(firstTilePos, secondTilePos);
-        if (isRightRange)
-        {
-            bool isAdjacent = BoardManager.instance.CheckTilesAdjacent(firstTilePos, secondTilePos);
-            if (isAdjacent)
-            {
-                BoardManager.instance.SwapTile(firstTilePos, secondTilePos);
-            }
-        }
-        else
-        {
-            Debug.Log("Wrong Range");
-        }
+        
+        BoardManager.instance.StartMatch(firstTilePos, secondTilePos);
     }
 }

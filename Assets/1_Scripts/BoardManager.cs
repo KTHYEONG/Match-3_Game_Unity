@@ -31,7 +31,24 @@ public class BoardManager : MonoBehaviour
             }
         }
     }
-    public bool CheckValidRange(Vector2Int inTileA, Vector2Int inTileB)
+    public void StartMatch(Vector2Int inTileA, Vector2Int inTileB)
+    {
+        bool isRightRange = CheckValidRange(inTileA, inTileB);
+        if (isRightRange)
+        {
+            bool isAdjacent = CheckTilesAdjacent(inTileA, inTileB);
+            if (isAdjacent)
+            {
+                SwapTile(inTileA, inTileB);
+                CheckMatch3();
+            }
+        }
+        else
+        {
+            //Debug.Log("Wrong Range");
+        }
+    }
+    private bool CheckValidRange(Vector2Int inTileA, Vector2Int inTileB)
     {
         bool checkTileA = inTileA.x >= 0 && inTileA.x < boardWidth
             && inTileA.y >= 0 && inTileA.y < boardHeight;
@@ -40,18 +57,23 @@ public class BoardManager : MonoBehaviour
 
         return checkTileA && checkTileB;
     }
-    public bool CheckTilesAdjacent(Vector2Int inTileA, Vector2Int inTileB)
+    private bool CheckTilesAdjacent(Vector2Int inTileA, Vector2Int inTileB)
     {
         return Mathf.Abs(inTileA.x - inTileB.x) + Mathf.Abs(inTileA.y - inTileB.y) == 1;
     }
-    public void SwapTile(Vector2Int inTileA, Vector2Int inTileB)
+    private void CheckMatch3()
+    {
+
+    }
+
+    private void SwapTile(Vector2Int inTileA, Vector2Int inTileB)
     {
         GameObject temp = Tiles[inTileA.x, inTileA.y];
         Tiles[inTileA.x, inTileA.y] = Tiles[inTileB.x, inTileB.y];
         Tiles[inTileB.x, inTileB.y] = temp;
         SwapFruit(inTileA, inTileB);
     }
-    public void SwapFruit(Vector2Int inTileA, Vector2Int inTileB)
+    private void SwapFruit(Vector2Int inTileA, Vector2Int inTileB)
     {
         Vector3 temp = Tiles[inTileA.x, inTileA.y].transform.position;
         Tiles[inTileA.x, inTileA.y].transform.position = Tiles[inTileB.x, inTileB.y].transform.position;
