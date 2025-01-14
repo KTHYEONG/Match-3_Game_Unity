@@ -17,7 +17,7 @@ public class BoardManager : MonoBehaviour
 
     private GameObject[,] Tiles;
 
-    public void InitializeBoard()
+    public void Initialize()
     {
         Tiles = new GameObject[boardWidth, boardHeight];
         for (int i = 0; i < boardWidth; i++)
@@ -27,7 +27,9 @@ public class BoardManager : MonoBehaviour
                 Vector2 pos = new Vector2(i, j);
                 GameObject bgObj = Instantiate(tilePrefab, pos, Quaternion.identity);
                 bgObj.transform.parent = this.transform;
-                bgObj.name = "( " + i + ", " + j + ")";
+                bgObj.name = "( " + i + ", " + j + " )";
+
+                FruitManager.instance.InitializeFruit(pos);
             }
         }
     }

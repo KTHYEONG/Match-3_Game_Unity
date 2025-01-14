@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        BoardManager.instance.InitializeBoard();
+        BoardManager.instance.Initialize();
     }
     public void PauseGame()
     {
