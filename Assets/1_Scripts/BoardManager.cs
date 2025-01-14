@@ -16,10 +16,6 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private int boardHeight = 8;
     [SerializeField] private GameObject tilePrefab;
 
-    // Board의 경계 체크를 위한 배열
-    int[] dx = { 1, 0, -1, 0 };
-    int[] dy = { 0, -1, 0, 1 };
-
     private GameObject[,] Tiles;
     public void Initialize()
     {
@@ -68,10 +64,14 @@ public class BoardManager : MonoBehaviour
     }
     private void CheckMatch(Vector2Int inTileA, Vector2Int inTileB)
     {
-        DeactiveObj(CheckByBfs(inTileA));
-        DeactiveObj(CheckByBfs(inTileB));
+        // 가로 방향 탐색
+        DeactiveObj(CheckByBfs(inTileA, true));
+        DeactiveObj(CheckByBfs(inTileB, true));
+        // 세로 방향 탐색
+        DeactiveObj(CheckByBfs(inTileA, false));
+        DeactiveObj(CheckByBfs(inTileB, false));
     }
-    private List<Vector2Int> CheckByBfs(Vector2Int inTile)
+    private List<Vector2Int> CheckByBfs(Vector2Int inTile, bool isHorizontal)
     {
         // BFS
         List<Vector2Int> matchedTiles = new List<Vector2Int>();
@@ -79,17 +79,19 @@ public class BoardManager : MonoBehaviour
         bool[,] visited = new bool[boardWidth, boardHeight];
 
         string targetName = Tiles[inTile.x, inTile.y].name;
-        Debug.Log(targetName);
         queue.Enqueue(inTile);
         visited[inTile.x, inTile.y] = true;
+
+        // 탐색 방향(가로 or 세로) 설정
+        int[] dx = isHorizontal ? new int[] { 1, -1 } : new int[] { 0, 0 };
+        int[] dy = isHorizontal ? new int[] { 0, 0 } : new int[] { 1, -1 };
 
         while (queue.Count > 0)
         {
             Vector2Int cur = queue.Dequeue();
             matchedTiles.Add(cur);
 
-            // 상, 하, 좌, 우 탐색
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 2; i++)
             {
                 int nx = cur.x + dx[i];
                 int ny = cur.y + dy[i];
