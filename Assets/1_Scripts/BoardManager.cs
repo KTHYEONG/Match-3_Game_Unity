@@ -25,7 +25,9 @@ public class BoardManager : MonoBehaviour
             for (int j = 0; j < boardHeight; j++)
             {
                 Vector2 pos = new Vector2(i, j);
-                Instantiate(tilePrefab, pos, Quaternion.identity);
+                GameObject bgObj = Instantiate(tilePrefab, pos, Quaternion.identity);
+                bgObj.transform.parent = this.transform;
+                bgObj.name = "( " + i + ", " + j + ")";
             }
         }
     }
