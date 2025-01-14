@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
+        InputManager.instance.Init();
+
         StartGame();
     }
     private void Update()

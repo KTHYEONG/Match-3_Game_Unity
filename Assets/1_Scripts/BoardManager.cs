@@ -15,6 +15,10 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private int boardHeight = 8;
     [SerializeField] private GameObject tilePrefab;
 
+    // Board의 경계 체크를 위한 배열
+    int[] dx = { 1, 0, -1, 0 };
+    int[] dy = { 0, -1, 0, 1 };
+
     private GameObject[,] Tiles;
     public void Initialize()
     {
@@ -63,36 +67,58 @@ public class BoardManager : MonoBehaviour
     }
     private void CheckMatch3(Vector2Int inTileA, Vector2Int inTileB)
     {
-        CheckCorrect(inTileA);
-        CheckCorrect(inTileB);
+        if (CheckCorrect(inTileA.x, inTileA.y, 1, new bool[boardWidth, boardHeight]))
+        {
+        }
+        if (CheckCorrect(inTileB.x, inTileB.y, 1, new bool[boardWidth, boardHeight]))
+        {
+        }
     }
-    private void CheckCorrect(Vector2Int inVector2Int)
+    private bool CheckCorrect(int inX, int inY, int cnt, bool[,] visited)
     {
-        int[] dx = { 1, 0, -1, 0 };
-        int[] dy = { 0, -1, 0, 1 };
+        if (visited[inX, inY])
+        {
+            return false;
+        }
+        visited[inX, inY] = true;
 
+        if (cnt == 3)
+        {
+            DeactiveMatchedObj(inX, inY, visited);
+            return true;
+        }
+
+        // 상, 하, 좌, 우 탐색(dfs)
         for (int i = 0; i < 4; i++)
         {
-            int nextX = inVector2Int.x + dx[i];
-            int nextY = inVector2Int.y + dy[i];
-            if (nextX < 0 && nextY < 0 && nextX > boardWidth && nextY > boardHeight)
+            int nx = inX + dx[i];
+            int ny = inY + dy[i];
+            if (nx < 0 || ny < 0 || nx >= boardWidth || ny >= boardHeight)
             {
                 continue;
             }
 
-            int prevX = inVector2Int.x + (dx[i] * -1);
-            int prevY = inVector2Int.y + (dy[i] * -1);
-            if (prevX < 0 && prevY < 0 && prevX > boardWidth && prevY > boardHeight)
+            if (!visited[nx, ny] && Tiles[nx, ny].name == Tiles[inX, inY].name)
             {
-                continue;
+                if (CheckCorrect(nx, ny, cnt + 1, visited))
+                {
+                    return true;
+                }
             }
+        }
 
-            if (Tiles[nextX, nextY].gameObject.name == Tiles[inVector2Int.x, inVector2Int.y].gameObject.name &&
-            Tiles[inVector2Int.x, inVector2Int.y].gameObject.name == Tiles[prevX, prevY].gameObject.name)
+        return false;
+    }
+    private void DeactiveMatchedObj(int inX, int inY, bool[,] visited)
+    {
+        for (int i = 0; i < boardWidth; i++)
+        {
+            for (int j = 0; j < boardHeight; j++)
             {
-                Tiles[nextX, nextY].SetActive(false);
-                Tiles[inVector2Int.x, inVector2Int.y].SetActive(false);
-                Tiles[prevX, prevY].SetActive(false);
+                if (visited[i, j])
+                {
+                    Tiles[i, j].SetActive(false);
+                }
             }
         }
     }
