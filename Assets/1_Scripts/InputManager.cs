@@ -53,10 +53,18 @@ public class InputManager
         Vector2Int secondTilePos = new Vector2Int(Mathf.RoundToInt(secondWorldPos.x),
             Mathf.RoundToInt(secondWorldPos.y));
 
-        bool checkRight = BoardManager.instance.CheckTilesAdjacent(firstTilePos, secondTilePos);
-        if (checkRight)
+        bool isRightRange = BoardManager.instance.CheckValidRange(firstTilePos, secondTilePos);
+        if (isRightRange)
         {
-            BoardManager.instance.SwapTile(firstTilePos, secondTilePos);
+            bool isAdjacent = BoardManager.instance.CheckTilesAdjacent(firstTilePos, secondTilePos);
+            if (isAdjacent)
+            {
+                BoardManager.instance.SwapTile(firstTilePos, secondTilePos);
+            }
+        }
+        else
+        {
+            Debug.Log("Wrong Range");
         }
     }
 }

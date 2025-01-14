@@ -31,6 +31,15 @@ public class BoardManager : MonoBehaviour
             }
         }
     }
+    public bool CheckValidRange(Vector2Int inTileA, Vector2Int inTileB)
+    {
+        bool checkTileA = inTileA.x >= 0 && inTileA.x < boardWidth
+            && inTileA.y >= 0 && inTileA.y < boardHeight;
+        bool checkTileB = inTileB.x >= 0 && inTileB.x < boardWidth
+            && inTileB.y >= 0 && inTileB.y < boardHeight;
+
+        return checkTileA && checkTileB;
+    }
     public bool CheckTilesAdjacent(Vector2Int inTileA, Vector2Int inTileB)
     {
         return Mathf.Abs(inTileA.x - inTileB.x) + Mathf.Abs(inTileA.y - inTileB.y) == 1;
