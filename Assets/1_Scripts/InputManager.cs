@@ -26,7 +26,7 @@ public class InputManager
     private void HandleInput(Vector3 inMousePos)
     {
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(inMousePos);
-        Debug.Log("mouse input on"); 
+
     }
 
 }
