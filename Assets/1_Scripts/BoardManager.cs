@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardManager : MonoBehaviour
@@ -44,7 +45,7 @@ public class BoardManager : MonoBehaviour
             if (isAdjacent)
             {
                 SwapTile(inTileA, inTileB);
-                CheckMatch3(inTileA, inTileB);
+                CheckMatch(inTileA, inTileB);
             }
         }
         else
@@ -65,60 +66,57 @@ public class BoardManager : MonoBehaviour
     {
         return Mathf.Abs(inTileA.x - inTileB.x) + Mathf.Abs(inTileA.y - inTileB.y) == 1;
     }
-    private void CheckMatch3(Vector2Int inTileA, Vector2Int inTileB)
+    private void CheckMatch(Vector2Int inTileA, Vector2Int inTileB)
     {
-        if (CheckCorrect(inTileA.x, inTileA.y, 1, new bool[boardWidth, boardHeight]))
-        {
-        }
-        if (CheckCorrect(inTileB.x, inTileB.y, 1, new bool[boardWidth, boardHeight]))
-        {
-        }
+        DeactiveObj(CheckByBfs(inTileA));
+        DeactiveObj(CheckByBfs(inTileB));
     }
-    private bool CheckCorrect(int inX, int inY, int cnt, bool[,] visited)
+    private List<Vector2Int> CheckByBfs(Vector2Int inTile)
     {
-        if (visited[inX, inY])
-        {
-            return false;
-        }
-        visited[inX, inY] = true;
+        // BFS
+        List<Vector2Int> matchedTiles = new List<Vector2Int>();
+        Queue<Vector2Int> queue = new Queue<Vector2Int>();
+        bool[,] visited = new bool[boardWidth, boardHeight];
 
-        if (cnt == 3)
-        {
-            DeactiveMatchedObj(inX, inY, visited);
-            return true;
-        }
+        string targetName = Tiles[inTile.x, inTile.y].name;
+        Debug.Log(targetName);
+        queue.Enqueue(inTile);
+        visited[inTile.x, inTile.y] = true;
 
-        // 상, 하, 좌, 우 탐색(dfs)
-        for (int i = 0; i < 4; i++)
+        while (queue.Count > 0)
         {
-            int nx = inX + dx[i];
-            int ny = inY + dy[i];
-            if (nx < 0 || ny < 0 || nx >= boardWidth || ny >= boardHeight)
+            Vector2Int cur = queue.Dequeue();
+            matchedTiles.Add(cur);
+
+            // 상, 하, 좌, 우 탐색
+            for (int i = 0; i < 4; i++)
             {
-                continue;
-            }
+                int nx = cur.x + dx[i];
+                int ny = cur.y + dy[i];
 
-            if (!visited[nx, ny] && Tiles[nx, ny].name == Tiles[inX, inY].name)
-            {
-                if (CheckCorrect(nx, ny, cnt + 1, visited))
-                {
-                    return true;
-                }
+                // 범위 체크
+                if (nx < 0 || ny < 0 || nx >= boardWidth || ny >= boardHeight)
+                    continue;
+
+                // 이미 방문했거나 다른 과일이면 스킵
+                if (visited[nx, ny] || Tiles[nx, ny].name != targetName)
+                    continue;
+
+                // 방문 처리 및 큐에 추가
+                visited[nx, ny] = true;
+                queue.Enqueue(new Vector2Int(nx, ny));
             }
         }
 
-        return false;
+        return matchedTiles;
     }
-    private void DeactiveMatchedObj(int inX, int inY, bool[,] visited)
+    private void DeactiveObj(List<Vector2Int> inList)
     {
-        for (int i = 0; i < boardWidth; i++)
+        if (inList.Count >= 3)
         {
-            for (int j = 0; j < boardHeight; j++)
+            foreach (var matchedTile in inList)
             {
-                if (visited[i, j])
-                {
-                    Tiles[i, j].SetActive(false);
-                }
+                Tiles[matchedTile.x, matchedTile.y].SetActive(false);
             }
         }
     }
