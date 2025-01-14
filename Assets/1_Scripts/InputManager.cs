@@ -15,18 +15,48 @@ public class InputManager
         }
     }
 
+    private bool isFirstClick;
+    private Vector3 firstMousePos;
+    public void Init()
+    {
+        isFirstClick = false;
+        firstMousePos = Vector3.zero;
+    }
+
     public void OnMouseInput()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0) && !isFirstClick)
         {
-            Vector3 mousePos = Input.mousePosition;
-            HandleInput(mousePos);
+            firstMousePos = Input.mousePosition;
+            isFirstClick = true;
+            //Debug.Log("First Input");
+        }
+        if (Input.GetMouseButtonUp(0) && isFirstClick)
+        {
+            Vector3 secondMousePos = Input.mousePosition;
+            //Debug.Log("Second Input");
+            HandleInput(firstMousePos, secondMousePos);
+            isFirstClick = false;
         }
     }
-    private void HandleInput(Vector3 inMousePos)
+    private void HandleInput(Vector3 inFirstPos, Vector3 inSecondPos)
     {
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(inMousePos);
+        float zDistance = Mathf.Abs(Camera.main.transform.position.z);
 
+        Vector3 firstWorldPos = Camera.main.ScreenToWorldPoint(
+            new Vector3(inFirstPos.x, inFirstPos.y, zDistance));
+        Vector3 secondWorldPos = Camera.main.ScreenToWorldPoint(
+            new Vector3(inSecondPos.x, inSecondPos.y, zDistance));
+
+        Vector2Int firstTilePos = new Vector2Int(Mathf.RoundToInt(firstWorldPos.x),
+            Mathf.RoundToInt(firstWorldPos.y));
+        Vector2Int secondTilePos = new Vector2Int(Mathf.RoundToInt(secondWorldPos.x),
+            Mathf.RoundToInt(secondWorldPos.y));
+
+        bool checkRight = BoardManager.instance.CheckTilesAdjacent(firstTilePos, secondTilePos);
+        if (checkRight)
+        {
+            BoardManager.instance.SwapTile(firstTilePos, secondTilePos);
+        }
     }
-
 }

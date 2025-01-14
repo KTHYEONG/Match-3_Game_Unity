@@ -31,4 +31,21 @@ public class BoardManager : MonoBehaviour
             }
         }
     }
+    public bool CheckTilesAdjacent(Vector2Int inTileA, Vector2Int inTileB)
+    {
+        return Mathf.Abs(inTileA.x - inTileB.x) + Mathf.Abs(inTileA.y - inTileB.y) == 1;
+    }
+    public void SwapTile(Vector2Int inTileA, Vector2Int inTileB)
+    {
+        GameObject temp = Tiles[inTileA.x, inTileA.y];
+        Tiles[inTileA.x, inTileA.y] = Tiles[inTileB.x, inTileB.y];
+        Tiles[inTileB.x, inTileB.y] = temp;
+        SwapFruit(inTileA, inTileB);
+    }
+    public void SwapFruit(Vector2Int inTileA, Vector2Int inTileB)
+    {
+        Vector3 temp = Tiles[inTileA.x, inTileA.y].transform.position;
+        Tiles[inTileA.x, inTileA.y].transform.position = Tiles[inTileB.x, inTileB.y].transform.position;
+        Tiles[inTileB.x, inTileB.y].transform.position = temp;
+    }
 }
