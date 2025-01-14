@@ -13,26 +13,19 @@ public class BoardManager : MonoBehaviour
 
     [SerializeField] private int boardWidth = 8;
     [SerializeField] private int boardHeight = 8;
-    [SerializeField] private GameObject[] fruitPrefabs;
+    [SerializeField] private GameObject tilePrefab;
 
-    private GameObject[][] board;
+    private GameObject[,] board;
 
     public void InitializeBoard()
     {
-        board = new GameObject[boardHeight][];
-        for (int i = 0; i < boardHeight;i++)
+        board = new GameObject[boardWidth, boardHeight];
+        for (int i = 0; i < boardWidth; i++)
         {
-            board[i] = new GameObject[boardWidth];
-        }
-
-        for (int i = 0; i < boardHeight; i++)
-        {
-            for (int j = 0; j < boardWidth; j++)
+            for (int j = 0; j < boardHeight; j++)
             {
-                int randomIdx = Random.Range(0, fruitPrefabs.Length);
                 Vector2 pos = new Vector2(i, j);
-                GameObject fruit = Instantiate(fruitPrefabs[randomIdx], pos, Quaternion.identity);
-                board[i][j] = fruit;
+                Instantiate(tilePrefab, pos, Quaternion.identity);
             }
         }
     }
