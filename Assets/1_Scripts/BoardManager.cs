@@ -15,11 +15,11 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private int boardHeight = 8;
     [SerializeField] private GameObject tilePrefab;
 
-    private GameObject[,] board;
+    private GameObject[,] Tiles;
 
     public void InitializeBoard()
     {
-        board = new GameObject[boardWidth, boardHeight];
+        Tiles = new GameObject[boardWidth, boardHeight];
         for (int i = 0; i < boardWidth; i++)
         {
             for (int j = 0; j < boardHeight; j++)
