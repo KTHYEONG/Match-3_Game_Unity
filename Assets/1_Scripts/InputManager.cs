@@ -14,4 +14,19 @@ public class InputManager
             return mInstance;
         }
     }
+
+    public void OnMouseInput()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            Vector3 mousePos = Input.mousePosition;
+            HandleInput(mousePos);
+        }
+    }
+    private void HandleInput(Vector3 inMousePos)
+    {
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(inMousePos);
+        Debug.Log("mouse input on"); 
+    }
+
 }

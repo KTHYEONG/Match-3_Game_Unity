@@ -16,7 +16,6 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private GameObject tilePrefab;
 
     private GameObject[,] Tiles;
-
     public void Initialize()
     {
         Tiles = new GameObject[boardWidth, boardHeight];
@@ -28,8 +27,7 @@ public class BoardManager : MonoBehaviour
                 GameObject bgObj = Instantiate(tilePrefab, pos, Quaternion.identity);
                 bgObj.transform.parent = this.transform;
                 bgObj.name = "( " + i + ", " + j + " )";
-
-                FruitManager.instance.InitializeFruit(pos);
+                Tiles[i, j] = FruitManager.instance.InitializeFruit(pos);
             }
         }
     }

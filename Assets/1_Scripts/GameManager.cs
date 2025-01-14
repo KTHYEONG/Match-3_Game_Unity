@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        
+        InputManager.instance.OnMouseInput();
     }
 
     public void StartGame()
