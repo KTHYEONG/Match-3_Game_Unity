@@ -40,7 +40,7 @@ public class BoardManager : MonoBehaviour
             if (isAdjacent)
             {
                 SwapTile(inTileA, inTileB);
-                CheckMatch3();
+                CheckMatch3(inTileA, inTileB);
             }
         }
         else
@@ -61,11 +61,41 @@ public class BoardManager : MonoBehaviour
     {
         return Mathf.Abs(inTileA.x - inTileB.x) + Mathf.Abs(inTileA.y - inTileB.y) == 1;
     }
-    private void CheckMatch3()
+    private void CheckMatch3(Vector2Int inTileA, Vector2Int inTileB)
     {
-
+        CheckCorrect(inTileA);
+        CheckCorrect(inTileB);
     }
+    private void CheckCorrect(Vector2Int inVector2Int)
+    {
+        int[] dx = { 1, 0, -1, 0 };
+        int[] dy = { 0, -1, 0, 1 };
 
+        for (int i = 0; i < 4; i++)
+        {
+            int nextX = inVector2Int.x + dx[i];
+            int nextY = inVector2Int.y + dy[i];
+            if (nextX < 0 && nextY < 0 && nextX > boardWidth && nextY > boardHeight)
+            {
+                continue;
+            }
+
+            int prevX = inVector2Int.x + (dx[i] * -1);
+            int prevY = inVector2Int.y + (dy[i] * -1);
+            if (prevX < 0 && prevY < 0 && prevX > boardWidth && prevY > boardHeight)
+            {
+                continue;
+            }
+
+            if (Tiles[nextX, nextY].gameObject.name == Tiles[inVector2Int.x, inVector2Int.y].gameObject.name &&
+            Tiles[inVector2Int.x, inVector2Int.y].gameObject.name == Tiles[prevX, prevY].gameObject.name)
+            {
+                Tiles[nextX, nextY].SetActive(false);
+                Tiles[inVector2Int.x, inVector2Int.y].SetActive(false);
+                Tiles[prevX, prevY].SetActive(false);
+            }
+        }
+    }
     private void SwapTile(Vector2Int inTileA, Vector2Int inTileB)
     {
         GameObject temp = Tiles[inTileA.x, inTileA.y];

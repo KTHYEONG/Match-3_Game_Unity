@@ -18,7 +18,6 @@ public class FruitManager : MonoBehaviour
         int randomIdx = Random.Range(0, fruitPrefabs.Length);
         GameObject fruit = Instantiate(fruitPrefabs[randomIdx], inPos, Quaternion.identity);
         fruit.transform.parent = this.transform;
-        fruit.name = "( " + inPos.x + ", " + inPos.y + " )";
         
         return fruit;
     }
