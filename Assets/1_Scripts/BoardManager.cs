@@ -30,7 +30,7 @@ public class BoardManager : MonoBehaviour
                 GameObject bgObj = Instantiate(tilePrefab, pos, Quaternion.identity);
                 bgObj.transform.parent = this.transform;
                 bgObj.name = "( " + i + ", " + j + " )";
-                Tiles[i, j] = FruitManager.instance.InitializeFruit(pos);
+                Tiles[i, j] = FruitManager.instance.InitializeFruit(pos, Tiles);
             }
         }
     }
@@ -198,7 +198,7 @@ public class BoardManager : MonoBehaviour
                 if (Tiles[i, j] == null)
                 {
                     Vector2 pos = new Vector2(i, j);
-                    Tiles[i, j] = FruitManager.instance.InitializeFruit(pos);
+                    Tiles[i, j] = FruitManager.instance.InitializeFruit(pos, Tiles);
                 }
             }
         }
