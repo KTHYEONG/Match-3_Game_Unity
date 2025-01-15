@@ -43,7 +43,7 @@ public class BoardManager : MonoBehaviour
             {
                 SwapTile(inTileA, inTileB);
                 CheckMatch(inTileA, inTileB);
-                FillEmptySpaces();           
+                FillEmptySpaces();
             }
         }
         else
@@ -66,12 +66,17 @@ public class BoardManager : MonoBehaviour
     }
     private void CheckMatch(Vector2Int inTileA, Vector2Int inTileB)
     {
-        // 가로 방향 탐색
-        DeactiveTile(CheckByBfs(inTileA, true));
-        DeactiveTile(CheckByBfs(inTileB, true));
-        // 세로 방향 탐색
-        DeactiveTile(CheckByBfs(inTileA, false));
-        DeactiveTile(CheckByBfs(inTileB, false));
+        // 가로, 세로 각각 탐색
+        List<Vector2Int> tempList0 = CheckByBfs(inTileB, true);
+        List<Vector2Int> tempList1 = CheckByBfs(inTileB, false);
+
+        List<Vector2Int> tempList2 = CheckByBfs(inTileA, true);
+        List<Vector2Int> tempList3 = CheckByBfs(inTileA, false);
+
+        DeactiveTile(tempList0);
+        DeactiveTile(tempList1);
+        DeactiveTile(tempList2);
+        DeactiveTile(tempList3);
     }
     private List<Vector2Int> CheckByBfs(Vector2Int inTile, bool isHorizontal)
     {
