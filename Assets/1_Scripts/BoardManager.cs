@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BoardManager : MonoBehaviour
@@ -44,6 +45,7 @@ public class BoardManager : MonoBehaviour
                 SwapTile(inTileA, inTileB);
                 CheckMatch(inTileA, inTileB);
                 FillEmptySpaces();
+                //ReMatchTiles();
             }
         }
         else
@@ -199,6 +201,40 @@ public class BoardManager : MonoBehaviour
                     Tiles[i, j] = FruitManager.instance.InitializeFruit(pos);
                 }
             }
+        }
+    }
+    private void ReMatchTiles()
+    {
+        bool isMatch = false;
+
+        for (int i = 0; i < boardWidth; i++)
+        {
+            for (int j = 0; j < boardHeight; j++)
+            {
+                Vector2Int curTile = new Vector2Int(i, j);
+
+                if (Tiles[i, j] != null)
+                {
+                    List<Vector2Int> horizontalMatches = CheckByBfs(curTile, true);
+                    List<Vector2Int> verticalMatches = CheckByBfs(curTile, false);
+                    if (horizontalMatches.Count >= 3)
+                    {
+                        DeactiveTile(horizontalMatches);
+                        isMatch = true;
+                    }
+                    if (verticalMatches.Count >= 3)
+                    {
+                        DeactiveTile(verticalMatches);
+                        isMatch = true;
+                    }
+                }
+            }
+        }
+
+        if (isMatch)
+        {
+            FillEmptySpaces();
+            ReMatchTiles();
         }
     }
 }
