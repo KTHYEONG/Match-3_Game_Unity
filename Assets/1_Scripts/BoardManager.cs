@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,6 +43,7 @@ public class BoardManager : MonoBehaviour
             {
                 SwapTile(inTileA, inTileB);
                 CheckMatch(inTileA, inTileB);
+                FillEmptySpaces();           
             }
         }
         else
@@ -65,11 +67,11 @@ public class BoardManager : MonoBehaviour
     private void CheckMatch(Vector2Int inTileA, Vector2Int inTileB)
     {
         // 가로 방향 탐색
-        DeactiveObj(CheckByBfs(inTileA, true));
-        DeactiveObj(CheckByBfs(inTileB, true));
+        DeactiveTile(CheckByBfs(inTileA, true));
+        DeactiveTile(CheckByBfs(inTileB, true));
         // 세로 방향 탐색
-        DeactiveObj(CheckByBfs(inTileA, false));
-        DeactiveObj(CheckByBfs(inTileB, false));
+        DeactiveTile(CheckByBfs(inTileA, false));
+        DeactiveTile(CheckByBfs(inTileB, false));
     }
     private List<Vector2Int> CheckByBfs(Vector2Int inTile, bool isHorizontal)
     {
@@ -112,13 +114,14 @@ public class BoardManager : MonoBehaviour
 
         return matchedTiles;
     }
-    private void DeactiveObj(List<Vector2Int> inList)
+    private void DeactiveTile(List<Vector2Int> inList)
     {
         if (inList.Count >= 3)
         {
             foreach (var matchedTile in inList)
             {
                 Tiles[matchedTile.x, matchedTile.y].SetActive(false);
+                Tiles[matchedTile.x, matchedTile.y] = null;
             }
         }
     }
@@ -134,5 +137,63 @@ public class BoardManager : MonoBehaviour
         Vector3 temp = Tiles[inTileA.x, inTileA.y].transform.position;
         Tiles[inTileA.x, inTileA.y].transform.position = Tiles[inTileB.x, inTileB.y].transform.position;
         Tiles[inTileB.x, inTileB.y].transform.position = temp;
+    }
+    private void FillEmptySpaces()
+    {
+        for (int i = 0; i < boardWidth; i++)
+        {
+            for (int j = 0; j < boardHeight; j++)
+            {
+                if (Tiles[i, j] == null)
+                {
+                    // 빈 타일 위쪽으로 탐색 시작
+                    for (int aboveY = j + 1; aboveY < boardHeight; aboveY++)
+                    {
+                        if (Tiles[i, aboveY] != null)
+                        {
+                            Tiles[i, j] = Tiles[i, aboveY];
+                            Tiles[i, aboveY] = null;
+
+                            // 이동
+                            StartCoroutine(MoveTile(Tiles[i, j], new Vector2(i, j)));
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        // 최상단의 빈 공간에 새로운 Fruit 생성
+        SpawnNewObjects();
+    }
+    private IEnumerator MoveTile(GameObject inTile, Vector2 inTargetPos)
+    {
+        Vector3 startPos = inTile.transform.position;
+        Vector3 endPos = new Vector3(inTargetPos.x, inTargetPos.y, inTile.transform.position.z);
+        float time = 0.0f;
+        float duration = 0.3f;
+
+        while (time < duration)
+        {
+            inTile.transform.position = Vector3.Lerp(startPos, endPos, time / duration);
+            time += duration;
+            yield return null;
+        }
+
+        inTile.transform.position = endPos;
+    }
+    private void SpawnNewObjects()
+    {
+        for (int i = 0; i < boardWidth; i++)
+        {
+            for (int j = 0; j < boardHeight; j++)
+            {
+                if (Tiles[i, j] == null)
+                {
+                    Vector2 pos = new Vector2(i, j);
+                    Tiles[i, j] = FruitManager.instance.InitializeFruit(pos);
+                }
+            }
+        }
     }
 }
