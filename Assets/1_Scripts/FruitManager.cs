@@ -26,9 +26,8 @@ public class FruitManager : MonoBehaviour
             int randomIdx = Random.Range(0, fruitPrefabs.Length);
             fruit = Instantiate(fruitPrefabs[randomIdx], inPos, Quaternion.identity);
             fruit.transform.parent = this.transform;
-
-            Vector2Int pos = new Vector2Int(Mathf.RoundToInt(inPos.x), Mathf.RoundToInt(inPos.y));
-
+            Vector2Int pos = new Vector2Int(Mathf.FloorToInt(inPos.x), Mathf.FloorToInt(inPos.y));
+           
             // 선택한 오브젝트가 유효한지 확인
             if (IsValidFruit(pos, inTiles, randomIdx))
             {
@@ -45,7 +44,7 @@ public class FruitManager : MonoBehaviour
     }
     private bool IsValidFruit(Vector2Int inTileIdx, GameObject[,] inTiles, int fruitIdx)
     {
-        // 가로 방향 검사
+        // 가로 방향 검사(왼쪽)
         if (inTileIdx.x >= 2 &&
             inTiles[inTileIdx.x - 1, inTileIdx.y] != null &&
             inTiles[inTileIdx.x - 2, inTileIdx.y] != null &&
@@ -55,7 +54,7 @@ public class FruitManager : MonoBehaviour
             return false; // 가로로 3개 연속
         }
 
-        // 세로 방향 검사
+        // 세로 방향 검사(아래)
         if (inTileIdx.y >= 2 &&
             inTiles[inTileIdx.x, inTileIdx.y - 1] != null &&
             inTiles[inTileIdx.x, inTileIdx.y - 2] != null &&
