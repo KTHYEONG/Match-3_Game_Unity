@@ -152,7 +152,7 @@ public class BoardManager : MonoBehaviour
         Vector3 firstPos = firstSelectedPiece.transform.position;
         Vector3 secondPos = secondSelectedPiece.transform.position;
 
-        float duration = 0.5f;
+        float duration = 0.3f;
         float elapsed = 0.0f;
         while (elapsed < duration)
         {
