@@ -68,28 +68,33 @@ public class BoardManager : MonoBehaviour
         {
             secondSelectedPiece = inClickedPiece;
 
-            SwapPieces();
-
-            // 매치 되는 Piece 찾기
-            HashSet<GameObject> matches = FindMatches(firstSelectedPiece, secondSelectedPiece);
-            // 매치되는 Piece가 있는 경우 -> 해당 Piece들 제거
-            if (matches.Count > 0)
-            {
-                foreach (GameObject match in matches)
-                {
-                    Destroy(match);
-                }
-            }
-            else
-            {
-                // 매치가 아닌 경우 다시 복귀
-                SwapPieces();
-            }
-
-            // 클릭된 Piece 초기화
-            firstSelectedPiece = null;
-            secondSelectedPiece = null;
+            StartCoroutine(SwapAndCheckMatches());
         }
+    }
+    private IEnumerator SwapAndCheckMatches()
+    {
+        // Swap
+        yield return StartCoroutine(SwapPieceCor());
+
+        // 매치 되는 Piece 찾기
+        HashSet<GameObject> matches = FindMatches(firstSelectedPiece, secondSelectedPiece);
+        if (matches.Count > 0)
+        {
+            // 매치되는 Piece 제거
+            foreach (GameObject match in matches)
+            {
+                Destroy(match);
+            }
+        }
+        else
+        {
+            // 매치가 아닌 경우 다시 Swap 하여 되돌리기
+            yield return StartCoroutine(SwapPieceCor());
+        }
+
+        // 클릭된 Piece 초기화
+        firstSelectedPiece = null;
+        secondSelectedPiece = null;
     }
     private HashSet<GameObject> FindMatches(Piece inPiece1, Piece inPiece2)
     {
@@ -142,12 +147,26 @@ public class BoardManager : MonoBehaviour
     {
         return x >= 0 && x < boardWidth && y >= 0 && y < boardHeight;
     }
-    private void SwapPieces()
+    private IEnumerator SwapPieceCor()
     {
         Vector3 firstPos = firstSelectedPiece.transform.position;
         Vector3 secondPos = secondSelectedPiece.transform.position;
 
-        // Piece의 게임상 위치 변경
+        float duration = 0.5f;
+        float elapsed = 0.0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float time = elapsed / duration;
+            time = Mathf.Clamp01(time);
+
+            // Piece의 게임상 위치 변경
+            firstSelectedPiece.transform.position = Vector3.Lerp(firstPos, secondPos, time);
+            secondSelectedPiece.transform.position = Vector3.Lerp(secondPos, firstPos, time);
+
+            yield return null;
+        }
+
         firstSelectedPiece.transform.position = secondPos;
         secondSelectedPiece.transform.position = firstPos;
 
