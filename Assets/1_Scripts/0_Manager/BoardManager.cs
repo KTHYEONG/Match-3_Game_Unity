@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class BoardManager : MonoBehaviour
 {
@@ -85,6 +86,11 @@ public class BoardManager : MonoBehaviour
             {
                 Destroy(match);
             }
+
+            // 빈 공간 채우기
+            yield return StartCoroutine(FillEmptySpaces());
+            // Match가 되는 부분이 있는지 확인
+            // yield return StartCoroutine();
         }
         else
         {
@@ -183,5 +189,88 @@ public class BoardManager : MonoBehaviour
 
         inPiece1.Init(inPiece2.x, inPiece2.y);
         inPiece2.Init(tempX, tempY);
+    }
+    private IEnumerator FillEmptySpaces()
+    {
+        bool hasMoved = false;
+
+        for (int x = 0; x < boardWidth; x++)
+        {
+            for (int y = 0; y < boardHeight; y++)
+            {
+                if (grid[x, y] == null)
+                {
+                    hasMoved = true;
+                    // 위의 Piece를 찾아서 아래로 가져오기
+                    for (int aboveY = y + 1; aboveY < boardHeight; aboveY++)
+                    {
+                        if (grid[x, aboveY] != null)
+                        {
+                            MovePiece(x, aboveY, x, y);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        yield return new WaitForSeconds(0.2f);
+
+        // 위쪽 빈 공간에 새로운 Piece 생성
+        if (hasMoved)
+        {
+            yield return StartCoroutine(SpawnNewPieces());
+        }
+    }
+    private void MovePiece(int fromX, int fromY, int toX, int toY)
+    {
+        GameObject piece = grid[fromX, fromY];
+        grid[fromX, fromY] = null;
+        grid[toX, toY] = piece;
+
+        piece.GetComponent<Piece>().x = toX;
+        piece.GetComponent<Piece>().y = toY;
+
+        // 인게임 Piece 아래방향 이동 구현
+        StartCoroutine(MovePieceCor(piece, new Vector3(toX, toY, 0)));
+    }
+    private IEnumerator MovePieceCor(GameObject inPiece, Vector3 inTargetPos)
+    {
+        float duration = 0.4f;
+        float elapsed = 0.0f;
+        Vector3 startPos = inPiece.transform.position;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float time = elapsed / duration;
+            time = Mathf.Clamp01(time);
+
+            inPiece.transform.position = Vector3.Lerp(startPos, inTargetPos, time);
+
+            yield return null;
+        }
+
+        inPiece.transform.position = inTargetPos;
+    }
+    private IEnumerator SpawnNewPieces()
+    {
+        for (int x = 0; x < boardWidth; x++)
+        {
+            for (int y = boardHeight - 1; y >= 0; y--)
+            {
+                if (grid[x, y] == null)
+                {
+                    int randomIdx = Random.Range(0, pieces.Length);
+                    GameObject newPiece = Instantiate(pieces[randomIdx], new Vector3(x, boardHeight, 0),
+                        Quaternion.identity);
+                    newPiece.GetComponent<Piece>().x = x;
+                    newPiece.GetComponent<Piece>().y = y;
+                    grid[x, y] = newPiece;
+
+                    yield return StartCoroutine(MovePieceCor(newPiece, new Vector3(x, y, 0)));
+                }
+            }
+        }
     }
 }
