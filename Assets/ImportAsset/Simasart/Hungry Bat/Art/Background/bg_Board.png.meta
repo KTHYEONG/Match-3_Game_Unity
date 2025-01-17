@@ -172,20 +172,20 @@ TextureImporter:
       name: bg_Board_0
       rect:
         serializedVersion: 2
-        x: 185
-        y: 870
+        x: 300
+        y: 869
         width: 110
         height: 110
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 1, w: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dd47bcc0e43ce264aa5cc9aa62d2c406
-      internalID: -1691333749
+      spriteID: b97529fad5f8dae4f9cd38c93de4f564
+      internalID: 1634034578
       vertices: []
       indices: 
       edges: []
@@ -204,7 +204,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      bg_Board_0: -1691333749
+      bg_Board_0: 1634034578
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
