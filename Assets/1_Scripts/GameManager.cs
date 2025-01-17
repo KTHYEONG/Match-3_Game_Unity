@@ -10,18 +10,22 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
     }
+
+    public Transform tileParent;
+    public Transform pieceParent;
+
     private void Start()
     {
         StartGame();
     }
     private void Update()
     {
-        InputManager.instance.OnMouseInput();
+
     }
 
     public void StartGame()
     {
-        BoardManager.instance.Initialize();
+        BoardManager.instance.Init();
     }
     public void PauseGame()
     {

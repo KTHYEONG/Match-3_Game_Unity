@@ -429,53 +429,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boardWidth: 7
-  boardHeight: 10
+  boardHeight: 7
   tilePrefab: {fileID: 1845957662571555876, guid: ec8cc52ce4140514c8bbe290830ffd59, type: 3}
---- !u!1 &1771818212
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1771818213}
-  - component: {fileID: 1771818214}
-  m_Layer: 0
-  m_Name: FruitManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1771818213
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771818212}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1771818214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771818212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8750a6aee6bfbaf42a85861626fa13d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fruitPrefabs:
+  pieces:
   - {fileID: 9003223963689281457, guid: dcfa150433e47994ebf8b1bc2346b4f9, type: 3}
   - {fileID: 6849145136739177961, guid: 1f9bc2baa3eecbe48aaac571067bd966, type: 3}
   - {fileID: 5360176583839675055, guid: 1977995712407c04a9f16047a8d9552e, type: 3}
@@ -489,6 +445,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 1230455339}
   - {fileID: 1595917984}
-  - {fileID: 1771818213}
   - {fileID: 1549780286}
   - {fileID: 619394802}

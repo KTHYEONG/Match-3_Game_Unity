@@ -15,20 +15,36 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private int boardHeight = 8;
     [SerializeField] private GameObject tilePrefab;
 
-    private GameObject[,] Tiles;
-    public void Initialize()
+    [SerializeField] private GameObject[] pieces;
+    private GameObject[,] grid;
+
+    public void Init()
     {
-        Tiles = new GameObject[boardWidth, boardHeight];
-        for (int i = 0; i < boardWidth; i++)
+        grid = new GameObject[boardWidth, boardHeight];
+        InitializeGrid();
+    }
+
+    private void InitializeGrid()
+    {
+        for (int x = 0; x < boardWidth; x++)
         {
-            for (int j = 0; j < boardHeight; j++)
+            for (int y = 0; y < boardHeight; y++)
             {
-                Vector2 pos = new Vector2(i, j);
-                GameObject bgObj = Instantiate(tilePrefab, pos, Quaternion.identity);
-                bgObj.transform.parent = this.transform;
-                bgObj.name = "( " + i + ", " + j + " )";
-                Tiles[i, j] = FruitManager.instance.InitializeFruit(pos);
+                SpawnTile(x, y);
+                SpawnPiece(x, y);
             }
         }
+    }
+    private void SpawnTile(int inX, int inY)
+    {
+        GameObject tile = Instantiate(tilePrefab, new Vector3(inX, inY), Quaternion.identity);
+        tile.transform.SetParent(GameManager.instance.tileParent);
+    }
+    private void SpawnPiece(int inX, int inY)
+    {
+        int randomIdx = Random.Range(0, pieces.Length);
+        GameObject piece = Instantiate(pieces[randomIdx], new Vector3(inX, inY), Quaternion.identity);
+        piece.transform.SetParent(GameManager.instance.pieceParent);
+        grid[inX, inY] = piece;
     }
 }
