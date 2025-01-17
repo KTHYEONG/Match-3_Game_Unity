@@ -77,7 +77,7 @@ public class BoardManager : MonoBehaviour
         // Swap
         yield return StartCoroutine(SwapPieceCor());
 
-        // 매치 되는 Piece 찾기
+        // 매치 되는 Piece 찾기 -> 같은 종류의 오브젝트 둘을 선택했을 때 처리 필요
         HashSet<GameObject> matches = FindMatches(firstSelectedPiece, secondSelectedPiece);
         if (matches.Count > 0)
         {
@@ -89,7 +89,7 @@ public class BoardManager : MonoBehaviour
 
             // 빈 공간 채우기
             yield return StartCoroutine(FillEmptySpaces());
-            // Match가 되는 부분이 있는지 확인
+            // Match가 되는 부분이 있는지 확인 -> 구현 필요
             // yield return StartCoroutine();
         }
         else
@@ -262,8 +262,8 @@ public class BoardManager : MonoBehaviour
                 if (grid[x, y] == null)
                 {
                     int randomIdx = Random.Range(0, pieces.Length);
-                    GameObject newPiece = Instantiate(pieces[randomIdx], new Vector3(x, boardHeight, 0),
-                        Quaternion.identity);
+                    GameObject newPiece = Instantiate(pieces[randomIdx], 
+                        new Vector3(x, boardHeight), Quaternion.identity);
                     newPiece.GetComponent<Piece>().x = x;
                     newPiece.GetComponent<Piece>().y = y;
                     grid[x, y] = newPiece;
