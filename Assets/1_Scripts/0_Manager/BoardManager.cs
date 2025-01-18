@@ -23,7 +23,6 @@ public class BoardManager : MonoBehaviour
     private Piece secondSelectedPiece;
     private bool isClicked;     // 마우스 연속 클릭으로 인한 오류발생 방지 목적
 
-    // piece가 채워 지는 중에 입력으로 match 시키면 오류 발생 해결 필요
     public void Init()
     {
         grid = new GameObject[boardWidth, boardHeight];
@@ -117,7 +116,6 @@ public class BoardManager : MonoBehaviour
                 ClearPieces();
             }
         }
-
         isClicked = false;
     }
     private void ClearPieces()
@@ -140,6 +138,8 @@ public class BoardManager : MonoBehaviour
     }
     private IEnumerator SwapAndCheckMatches()
     {
+        isClicked = true;
+
         // Swap
         yield return StartCoroutine(SwapPieceCor());
 
@@ -170,6 +170,8 @@ public class BoardManager : MonoBehaviour
 
         // 클릭된 Piece 초기화
         ClearPieces();
+
+        isClicked = false;
     }
     private HashSet<GameObject> FindMatches(params Piece[] pieces)
     {
