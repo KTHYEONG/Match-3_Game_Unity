@@ -22,7 +22,9 @@ public class BoardManager : MonoBehaviour
     private Piece firstSelectedPiece;
     private Piece secondSelectedPiece;
     private bool isClicked;     // 마우스 연속 클릭으로 인한 오류발생 방지 목적
-
+    
+    // 클릭의 시간차에 의한 오류인지 원인 파악이 안된 입력관련 에러 존재(Match중 일 때 클릭을 연속
+    // 으로 하면 오브젝트가 같음에도 match가 안되고 되돌아옴) 항상 그런것은 아님
     public void Init()
     {
         grid = new GameObject[boardWidth, boardHeight];
