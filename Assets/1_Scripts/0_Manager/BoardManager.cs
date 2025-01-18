@@ -88,12 +88,14 @@ public class BoardManager : MonoBehaviour
     {
         int diffX = Mathf.Abs(inFirstPiece.x - inSecondPiece.x);
         int diffY = Mathf.Abs(inFirstPiece.y - inSecondPiece.y);
-        if (diffX > 1 || diffY > 1)
+
+        // »ó,ÇÏ,ÁÂ,¿ì 1Ä­¸¸ Çã¿ë
+        if ((diffX == 1 && diffY == 0) || (diffX == 0 && diffY == 1))
         {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
     private IEnumerator SwapAndCheckMatches()
     {
