@@ -21,12 +21,14 @@ public class BoardManager : MonoBehaviour
     private GameObject[,] grid;
     private Piece firstSelectedPiece;
     private Piece secondSelectedPiece;
+    private bool isClicked;     // 마우스 연속 클릭으로 인한 오류발생 방지 목적
 
     public void Init()
     {
         grid = new GameObject[boardWidth, boardHeight];
         firstSelectedPiece = null;
         secondSelectedPiece = null;
+        isClicked = false;
 
         InitializeGrid();
     }
@@ -93,6 +95,10 @@ public class BoardManager : MonoBehaviour
     }
     public void OnPieceClicked(Piece inClickedPiece)
     {
+        if (isClicked) { return; }
+
+        isClicked = true;
+
         if (firstSelectedPiece == null)
         {
             firstSelectedPiece = inClickedPiece;
@@ -110,6 +116,8 @@ public class BoardManager : MonoBehaviour
                 ClearPieces();
             }
         }
+
+        isClicked = false;
     }
     private void ClearPieces()
     {
