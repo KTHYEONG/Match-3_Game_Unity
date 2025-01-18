@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class BoardManager : MonoBehaviour
 {
@@ -40,16 +38,48 @@ public class BoardManager : MonoBehaviour
             for (int y = 0; y < boardHeight; y++)
             {
                 SpawnTile(x, y);
-                SpawnPiece(x, y);
+                GameObject newPiece = SpawnPiece(x, y);
+
+                // 초기에 Match 되는 오브젝트 재생성
+                while (CheckInitialMatch(x, y, newPiece))
+                {
+                    Destroy(newPiece);
+                    newPiece = SpawnPiece(x, y);
+                }
             }
         }
+    }
+    private bool CheckInitialMatch(int inX, int inY, GameObject inPiece)
+    {
+        string pieceName = inPiece.name;
+
+        // 생성이 왼쪽 아래에서부터 시작하여 위쪽으로 생성 및 최종적으로 오른쪽 위에서 끝이나기 때문에
+        // 왼쪽과 아래쪽 검사 수행
+        // 왼쪽 검사
+        if (inX >= 2)
+        {
+            if (grid[inX - 1, inY].name == pieceName && grid[inX - 2, inY].name == pieceName)
+            {
+                return true;
+            }
+        }
+        // 아래쪽 검사
+        if (inY >= 2)
+        {
+            if (grid[inX, inY - 1].name == pieceName && grid[inX, inY - 2].name == pieceName)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
     private void SpawnTile(int inX, int inY)
     {
         GameObject tile = Instantiate(tilePrefab, new Vector3(inX, inY), Quaternion.identity);
         tile.transform.SetParent(GameManager.instance.tileParent);
     }
-    private void SpawnPiece(int inX, int inY)
+    private GameObject SpawnPiece(int inX, int inY)
     {
         int randomIdx = Random.Range(0, pieces.Length);
         GameObject piece = Instantiate(pieces[randomIdx], new Vector3(inX, inY), Quaternion.identity);
@@ -58,6 +88,8 @@ public class BoardManager : MonoBehaviour
         pieceScrpit.y = inY;
         piece.transform.SetParent(GameManager.instance.pieceParent);
         grid[inX, inY] = piece;
+
+        return piece;
     }
     public void OnPieceClicked(Piece inClickedPiece)
     {
