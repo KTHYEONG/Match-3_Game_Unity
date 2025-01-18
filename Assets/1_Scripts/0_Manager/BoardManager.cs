@@ -92,8 +92,9 @@ public class BoardManager : MonoBehaviour
 
             // 빈 공간 채우기
             yield return StartCoroutine(FillEmptySpaces());
-            // Match가 되는 부분이 있는지 확인 -> 구현 필요
-            // yield return StartCoroutine();
+
+            // Match가 되는 부분이 있는지 재확인
+            yield return StartCoroutine(CheckAdditonalMatches());
         }
         else
         {
@@ -105,23 +106,44 @@ public class BoardManager : MonoBehaviour
         firstSelectedPiece = null;
         secondSelectedPiece = null;
     }
-    private HashSet<GameObject> FindMatches(Piece inPiece1, Piece inPiece2)
+    private HashSet<GameObject> FindMatches(params Piece[] pieces)
     {
         // 중복 방지를 위해 HashSet 사용
         HashSet<GameObject> matches = new HashSet<GameObject>();
 
-        int[][] dirs = new int[][]
+        foreach (Piece piece in pieces)
         {
-            new int[] {1, 0},   // 오른쪽
-            new int[] {-1, 0},  // 왼쪽
-            new int[] {0, 1},   // 위
-            new int[] {0, -1},  // 아래
+            if (piece == null) { continue; }
+
+            matches.UnionWith(FindMatchesAt(piece.x, piece.y));
+        }
+
+        return matches;
+    }
+    private HashSet<GameObject> FindMatchesAt(int x, int y)
+    {
+        HashSet<GameObject> matches = new HashSet<GameObject>();
+
+        // 탐색 방향
+        int[][] directions = new int[][]
+        {
+        new int[] {1, 0},   // 오른쪽
+        new int[] {0, 1},   // 위
         };
 
-        foreach (int[] dir in dirs)
+        foreach (var dir in directions)
         {
-            CheckMatchInDir(inPiece1.x, inPiece1.y, dir[0], dir[1], matches);
-            CheckMatchInDir(inPiece2.x, inPiece2.y, dir[0], dir[1], matches);
+            HashSet<GameObject> lineMatches = new HashSet<GameObject>();
+
+            // 해당 방향과 반대 방향 검사
+            CheckMatchInDir(x, y, dir[0], dir[1], lineMatches);
+            CheckMatchInDir(x, y, -dir[0], -dir[1], lineMatches);
+
+            // 3개 이상의 매치가 있는 경우 추가
+            if (lineMatches.Count >= 3)
+            {
+                matches.UnionWith(lineMatches);
+            }
         }
 
         return matches;
@@ -265,7 +287,7 @@ public class BoardManager : MonoBehaviour
                 if (grid[x, y] == null)
                 {
                     int randomIdx = Random.Range(0, pieces.Length);
-                    GameObject newPiece = Instantiate(pieces[randomIdx], 
+                    GameObject newPiece = Instantiate(pieces[randomIdx],
                         new Vector3(x, boardHeight), Quaternion.identity);
                     newPiece.GetComponent<Piece>().x = x;
                     newPiece.GetComponent<Piece>().y = y;
@@ -274,6 +296,43 @@ public class BoardManager : MonoBehaviour
                     yield return StartCoroutine(MovePieceCor(newPiece, new Vector3(x, y, 0)));
                 }
             }
+        }
+    }
+    private IEnumerator CheckAdditonalMatches()
+    {
+        while (true)
+        {
+            HashSet<GameObject> additionalMatches = new HashSet<GameObject>();
+
+            // 모든 그리드를 순회하며 매치 확인
+            for (int x = 0; x < boardWidth; x++)
+            {
+                for (int y = 0; y < boardHeight; y++)
+                {
+                    if (grid[x, y] != null)
+                    {
+                        additionalMatches.UnionWith(FindMatchesAt(x, y));
+                    }
+                }
+            }
+
+            // 추가 매치가 없는 경우 종료
+            if (additionalMatches.Count == 0)
+            {
+                break;
+            }
+
+            // 추가 매치 제거
+            foreach (GameObject match in additionalMatches)
+            {
+                Destroy(match);
+            }
+
+            // 한 프레임 대기하여 Destroy의 시간을 보장
+            yield return null;
+
+            // 빈 공간 채우기
+            yield return StartCoroutine(FillEmptySpaces());
         }
     }
 }
