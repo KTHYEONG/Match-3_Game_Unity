@@ -69,8 +69,31 @@ public class BoardManager : MonoBehaviour
         {
             secondSelectedPiece = inClickedPiece;
 
-            StartCoroutine(SwapAndCheckMatches());
+            if (CheckAdjacent(firstSelectedPiece, secondSelectedPiece))
+            {
+                StartCoroutine(SwapAndCheckMatches());
+            }
+            else
+            {
+                ClearPieces();
+            }
         }
+    }
+    private void ClearPieces()
+    {
+        firstSelectedPiece = null;
+        secondSelectedPiece = null;
+    }
+    private bool CheckAdjacent(Piece inFirstPiece, Piece inSecondPiece)
+    {
+        int diffX = Mathf.Abs(inFirstPiece.x - inSecondPiece.x);
+        int diffY = Mathf.Abs(inFirstPiece.y - inSecondPiece.y);
+        if (diffX > 1 || diffY > 1)
+        {
+            return false;
+        }
+
+        return true;
     }
     private IEnumerator SwapAndCheckMatches()
     {
@@ -103,8 +126,7 @@ public class BoardManager : MonoBehaviour
         }
 
         // 클릭된 Piece 초기화
-        firstSelectedPiece = null;
-        secondSelectedPiece = null;
+        ClearPieces();
     }
     private HashSet<GameObject> FindMatches(params Piece[] pieces)
     {
