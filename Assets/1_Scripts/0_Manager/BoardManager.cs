@@ -87,6 +87,9 @@ public class BoardManager : MonoBehaviour
                 Destroy(match);
             }
 
+            // 한 프레임 대기하여 Destroy의 시간을 보장
+            yield return null;
+
             // 빈 공간 채우기
             yield return StartCoroutine(FillEmptySpaces());
             // Match가 되는 부분이 있는지 확인 -> 구현 필요
