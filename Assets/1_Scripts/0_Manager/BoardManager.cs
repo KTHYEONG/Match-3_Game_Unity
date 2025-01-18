@@ -23,6 +23,7 @@ public class BoardManager : MonoBehaviour
     private Piece secondSelectedPiece;
     private bool isClicked;     // 마우스 연속 클릭으로 인한 오류발생 방지 목적
 
+    // piece가 채워 지는 중에 입력으로 match 시키면 오류 발생 해결 필요
     public void Init()
     {
         grid = new GameObject[boardWidth, boardHeight];
