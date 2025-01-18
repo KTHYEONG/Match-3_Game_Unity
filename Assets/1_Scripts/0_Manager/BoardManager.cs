@@ -260,7 +260,7 @@ public class BoardManager : MonoBehaviour
     {
         for (int x = 0; x < boardWidth; x++)
         {
-            for (int y = boardHeight - 1; y >= 0; y--)
+            for (int y = 0; y < boardHeight; y++)
             {
                 if (grid[x, y] == null)
                 {
