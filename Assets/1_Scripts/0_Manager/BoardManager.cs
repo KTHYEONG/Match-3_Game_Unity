@@ -355,6 +355,7 @@ public class BoardManager : MonoBehaviour
                         new Vector3(x, boardHeight), Quaternion.identity);
                     newPiece.GetComponent<Piece>().x = x;
                     newPiece.GetComponent<Piece>().y = y;
+                    newPiece.transform.SetParent(GameManager.instance.pieceParent);
                     grid[x, y] = newPiece;
 
                     yield return StartCoroutine(MovePieceCor(newPiece, new Vector3(x, y, 0)));
