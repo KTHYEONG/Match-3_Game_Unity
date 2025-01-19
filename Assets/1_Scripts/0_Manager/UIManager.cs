@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     public void Init()
     {
         scoreText = scoreObj.GetComponent<TextMeshProUGUI>();
+        scoreText.text = "0";
     }
 
     public void UpdateScoreUI(int inScore)
