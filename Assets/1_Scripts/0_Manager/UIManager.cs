@@ -1,26 +1,28 @@
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class UIManager
+public class UIManager : MonoBehaviour
 {
-    public static UIManager mInstance = null;
-    public static UIManager instance
+    public static UIManager instance = null;
+
+    [SerializeField] private GameObject scoreObj;
+    private TextMeshProUGUI scoreText;
+    private void Awake()
     {
-        get
+        if (instance == null)
         {
-            if (mInstance == null)
-            {
-                mInstance = new UIManager();
-            }
-            return mInstance;
+            instance = this;
         }
     }
 
-    [SerializeField] private Text scoreText;
+    public void Init()
+    {
+        scoreText = scoreObj.GetComponent<TextMeshProUGUI>();
+    }
 
     public void UpdateScoreUI(int inScore)
     {
-        if (scoreText != null)
+        if (scoreObj != null && scoreText != null)
         {
             scoreText.text = inScore.ToString();
         }

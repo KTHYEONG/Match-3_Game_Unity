@@ -21,13 +21,14 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        UIManager.instance.UpdateScoreUI(score);
+
     }
 
     public void StartGame()
     {
         score = 0;
         BoardManager.instance.Init();
+        UIManager.instance.Init();
     }
     public void PauseGame()
     {
@@ -38,8 +39,9 @@ public class GameManager : MonoBehaviour
         
     }
 
-    private void AddScore(int inPoints)
+    public void AddScore(int inPoints)
     {
         score += inPoints;
+        UIManager.instance.UpdateScoreUI(score);
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BoardManager : MonoBehaviour
@@ -149,6 +150,9 @@ public class BoardManager : MonoBehaviour
         HashSet<GameObject> matches = FindMatches(firstSelectedPiece, secondSelectedPiece);
         if (matches.Count > 0)
         {
+            // 점수 추가
+            GameManager.instance.AddScore(matches.Count);
+
             // 매치되는 Piece 제거
             foreach (GameObject match in matches)
             {
