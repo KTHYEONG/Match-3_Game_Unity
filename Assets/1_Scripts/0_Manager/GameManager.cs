@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     }
     public void PauseGame()
     {
-
+        // Debug.Log("On Pause!");
     }
     public void EndGame()
     {
