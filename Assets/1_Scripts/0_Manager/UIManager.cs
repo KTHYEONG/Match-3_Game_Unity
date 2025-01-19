@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager
 {
@@ -15,5 +16,13 @@ public class UIManager
         }
     }
 
-    
+    [SerializeField] private Text scoreText;
+
+    public void UpdateScoreUI(int inScore)
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = inScore.ToString();
+        }
+    }
 }

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     public Transform tileParent;
     public Transform pieceParent;
+    private int score;
 
     private void Start()
     {
@@ -20,11 +21,12 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        
+        UIManager.instance.UpdateScoreUI(score);
     }
 
     public void StartGame()
     {
+        score = 0;
         BoardManager.instance.Init();
     }
     public void PauseGame()
@@ -33,6 +35,11 @@ public class GameManager : MonoBehaviour
     }
     public void EndGame()
     {
+        
+    }
 
+    private void AddScore(int inPoints)
+    {
+        score += inPoints;
     }
 }
