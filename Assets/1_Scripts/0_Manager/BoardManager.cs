@@ -396,6 +396,9 @@ public class BoardManager : MonoBehaviour
                 break;
             }
 
+            // 점수 추가
+            GameManager.instance.AddScore(additionalMatches.Count);
+
             // 추가 매치 제거
             foreach (GameObject match in additionalMatches)
             {
