@@ -37,6 +37,11 @@ public class GameManager : MonoBehaviour
     public void PauseGame()
     {
         // Debug.Log("On Pause!");
+        Time.timeScale = 0.0f;
+    }
+    public void ResumeGame()
+    {
+        Time.timeScale = 1.0f;
     }
     public void EndGame()
     {
