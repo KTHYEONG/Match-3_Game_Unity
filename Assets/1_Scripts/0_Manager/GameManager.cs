@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
     }
     public void PauseGame()
     {
-        // Debug.Log("On Pause!");
         Time.timeScale = 0.0f;
         isPlaying = false;
     }

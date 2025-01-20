@@ -1,3 +1,4 @@
+using Mono.Cecil.Cil;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -23,7 +24,7 @@ public class BoardManager : MonoBehaviour
     private Piece firstSelectedPiece;
     private Piece secondSelectedPiece;
     private bool isClicked;     // 마우스 연속 클릭으로 인한 오류발생 방지 목적
-    
+
     // 클릭의 시간차에 의한 오류인지 원인 파악이 안된 입력관련 에러 존재(Match중 일 때 클릭을 연속
     // 으로 하면 오브젝트가 같음에도 match가 안되고 되돌아옴) 항상 그런것은 아님
     public void Init()
@@ -141,6 +142,8 @@ public class BoardManager : MonoBehaviour
     }
     private IEnumerator SwapAndCheckMatches()
     {
+        if (GameManager.instance.isPlaying == false) { yield return null; }
+
         isClicked = true;
 
         // Swap
@@ -148,7 +151,7 @@ public class BoardManager : MonoBehaviour
 
         // 매치 되는 Piece 찾기 -> 같은 종류의 오브젝트 둘을 선택했을 때 처리 필요
         HashSet<GameObject> matches = FindMatches(firstSelectedPiece, secondSelectedPiece);
-        if (matches.Count > 0)
+        if (matches != null && matches.Count > 0)
         {
             // 점수 추가
             GameManager.instance.AddScore(matches.Count);
@@ -181,6 +184,8 @@ public class BoardManager : MonoBehaviour
     }
     private HashSet<GameObject> FindMatches(params Piece[] pieces)
     {
+        if (GameManager.instance.isPlaying == false) { return null; }
+
         // 중복 방지를 위해 HashSet 사용
         HashSet<GameObject> matches = new HashSet<GameObject>();
 
@@ -396,20 +401,23 @@ public class BoardManager : MonoBehaviour
                 break;
             }
 
-            // 점수 추가
-            GameManager.instance.AddScore(additionalMatches.Count);
-
             // 추가 매치 제거
             foreach (GameObject match in additionalMatches)
             {
                 Destroy(match);
             }
 
+            // 점수 추가
+            GameManager.instance.AddScore(additionalMatches.Count);
+
             // 한 프레임 대기하여 Destroy의 시간을 보장
             yield return null;
 
-            // 빈 공간 채우기
-            yield return StartCoroutine(FillEmptySpaces());
+            if (GameManager.instance.isPlaying)
+            {
+                // 빈 공간 채우기
+                yield return StartCoroutine(FillEmptySpaces());
+            }
         }
     }
 }
