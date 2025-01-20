@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI scoreText;
     [SerializeField] private GameObject scoreSliderObj;
     private Slider scoreSlider;
+    [SerializeField] private GameObject pauseObj;
 
     private void Awake()
     {
@@ -26,6 +27,8 @@ public class UIManager : MonoBehaviour
 
         scoreSlider = scoreSliderObj.GetComponent<Slider>();
         scoreSlider.value = 0.0f;
+
+        pauseObj.SetActive(false);
     }
 
     public void UpdateScoreUI(int inScore)
@@ -45,5 +48,11 @@ public class UIManager : MonoBehaviour
     public void OnPause()
     {
         GameManager.instance.PauseGame();
+
+    }
+    public void OnResume()
+    {
+        GameManager.instance.ResumeGame();
+        
     }
 }
