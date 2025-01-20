@@ -38,10 +38,12 @@ public class GameManager : MonoBehaviour
     {
         // Debug.Log("On Pause!");
         Time.timeScale = 0.0f;
+        isPlaying = false;
     }
     public void ResumeGame()
     {
         Time.timeScale = 1.0f;
+        isPlaying = true;
     }
     public void EndGame()
     {
