@@ -15,9 +15,12 @@ public class GameManager : MonoBehaviour
 
     public Transform tileParent;
     public Transform pieceParent;
+    [SerializeField] private AudioClip Bgm;
+
     public float totalScore;
     private int score;
     public bool isPlaying;
+
 
     private void Start()
     {
@@ -71,5 +74,9 @@ public class GameManager : MonoBehaviour
         {
             EndGame();
         }
+    }
+    private void OnOrOffSound()
+    {
+
     }
 }
