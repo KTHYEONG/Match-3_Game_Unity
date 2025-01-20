@@ -1,4 +1,6 @@
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -47,8 +49,17 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         isPlaying = false;
+        UIManager.instance.OnEndGame();
     }
-
+    public void RetryGame()
+    {
+        SceneManager.LoadScene(0);
+    }
+    public void QuitGame()
+    {
+        isPlaying = false;
+        Application.Quit();
+    }
     public void AddScore(int inPoints)
     {
         score += inPoints;

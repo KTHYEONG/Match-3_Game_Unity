@@ -55,4 +55,16 @@ public class UIManager : MonoBehaviour
         GameManager.instance.ResumeGame();
         pauseObj.SetActive(false);   
     }
+    public void OnRetry()
+    {
+        GameManager.instance.RetryGame();
+    }
+    public void OnQuit()
+    {
+        GameManager.instance.QuitGame();
+    }
+    public void OnEndGame()
+    {
+        
+    }
 }
