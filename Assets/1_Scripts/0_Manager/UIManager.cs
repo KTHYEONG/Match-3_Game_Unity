@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject pauseObj;
     [SerializeField] private GameObject soundToggleObj;
     private Toggle soundToggle;
-    
+
     private void Awake()
     {
         if (instance == null)
@@ -52,7 +52,11 @@ public class UIManager : MonoBehaviour
     }
     public void OnSoundInput()
     {
-        soundToggle.isOn = !soundToggle.isOn;
+        Text onOrOffText = soundToggle.GetComponentInChildren<Text>();
+        if (onOrOffText != null)
+        {
+            onOrOffText.text = soundToggle.isOn ? "ON" : "OFF";
+        }
     }
     public void OnPause()
     {
@@ -74,6 +78,6 @@ public class UIManager : MonoBehaviour
     }
     public void OnEndGame()
     {
-        
+
     }
 }
