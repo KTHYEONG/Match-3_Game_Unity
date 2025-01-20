@@ -48,11 +48,11 @@ public class UIManager : MonoBehaviour
     public void OnPause()
     {
         GameManager.instance.PauseGame();
-
+        pauseObj.SetActive(true);
     }
     public void OnResume()
     {
         GameManager.instance.ResumeGame();
-        
+        pauseObj.SetActive(false);   
     }
 }
