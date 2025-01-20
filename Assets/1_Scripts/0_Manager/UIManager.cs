@@ -11,8 +11,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject scoreSliderObj;
     private Slider scoreSlider;
     [SerializeField] private GameObject pauseObj;
-    [SerializeField] private GameObject soundToggleObj;
-    private Toggle soundToggle;
+    [SerializeField] private GameObject BgmToggleObj;
+    private Toggle BgmToggle;
 
     private void Awake()
     {
@@ -30,8 +30,8 @@ public class UIManager : MonoBehaviour
         scoreSlider = scoreSliderObj.GetComponent<Slider>();
         scoreSlider.value = 0.0f;
 
-        soundToggle = soundToggleObj.GetComponent<Toggle>();
-        soundToggle.isOn = true;
+        BgmToggle = BgmToggleObj.GetComponent<Toggle>();
+        BgmToggle.isOn = true;
 
         pauseObj.SetActive(false);
     }
@@ -52,10 +52,10 @@ public class UIManager : MonoBehaviour
     }
     public void OnSoundInput()
     {
-        Text onOrOffText = soundToggle.GetComponentInChildren<Text>();
+        Text onOrOffText = BgmToggle.GetComponentInChildren<Text>();
         if (onOrOffText != null)
         {
-            onOrOffText.text = soundToggle.isOn ? "ON" : "OFF";
+            onOrOffText.text = BgmToggle.isOn ? "ON" : "OFF";
         }
     }
     public void OnPause()
