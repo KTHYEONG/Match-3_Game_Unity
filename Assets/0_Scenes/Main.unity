@@ -297,8 +297,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -4.1303, y: 0}
+  m_SizeDelta: {x: -8.2605, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &355778079
 MonoBehaviour:
@@ -372,8 +372,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -2.5, y: 0}
-  m_SizeDelta: {x: 5, y: 0}
+  m_AnchoredPosition: {x: -4.5093, y: 0}
+  m_SizeDelta: {x: 0.9814, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &413033895
 MonoBehaviour:
@@ -1683,8 +1683,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b25a76137e2274ba06ee686f26005b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreObj: {fileID: 1192025510}
-  pauseObj: {fileID: 0}
+  scoreTextObj: {fileID: 1192025510}
+  scoreSliderObj: {fileID: 1487535021}
 --- !u!4 &1675027774
 Transform:
   m_ObjectHideFlags: 0
@@ -1734,7 +1734,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.3999996}
+  m_AnchoredPosition: {x: -4.5, y: 1.1}
   m_SizeDelta: {x: 15.488, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1715987158

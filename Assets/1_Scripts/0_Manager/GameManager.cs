@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     public Transform tileParent;
     public Transform pieceParent;
+    public float totalScore;
     private int score;
 
     private void Start()
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        totalScore = 100.0f;
         score = 0;
         BoardManager.instance.Init();
         UIManager.instance.Init();
@@ -43,5 +45,11 @@ public class GameManager : MonoBehaviour
     {
         score += inPoints;
         UIManager.instance.UpdateScoreUI(score);
+        UIManager.instance.UpdateScoreSliderUI(score);
+
+        if (score >= totalScore)
+        {
+            EndGame();
+        }
     }
 }

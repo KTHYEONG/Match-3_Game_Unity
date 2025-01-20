@@ -6,11 +6,11 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance = null;
 
-    [SerializeField] private GameObject scoreObj;
+    [SerializeField] private GameObject scoreTextObj;
     private TextMeshProUGUI scoreText;
+    [SerializeField] private GameObject scoreSliderObj;
+    private Slider scoreSlider;
 
-    [SerializeField] private GameManager pauseObj;
-    private Button pauseButton;
     private void Awake()
     {
         if (instance == null)
@@ -21,17 +21,25 @@ public class UIManager : MonoBehaviour
 
     public void Init()
     {
-        scoreText = scoreObj.GetComponent<TextMeshProUGUI>();
+        scoreText = scoreTextObj.GetComponent<TextMeshProUGUI>();
         scoreText.text = "0";
 
-        pauseButton = gameObject.GetComponent<Button>();
+        scoreSlider = scoreSliderObj.GetComponent<Slider>();
+        scoreSlider.value = 0.0f;
     }
 
     public void UpdateScoreUI(int inScore)
     {
-        if (scoreObj != null && scoreText != null)
+        if (scoreTextObj != null && scoreText != null)
         {
             scoreText.text = inScore.ToString();
+        }
+    }
+    public void UpdateScoreSliderUI(int inScore)
+    {
+        if (scoreSliderObj != null && scoreSlider != null)
+        {
+            scoreSlider.value = Mathf.Clamp01(inScore / 100.0f);
         }
     }
     public void OnPause()
