@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
     {
         if (scoreSliderObj != null && scoreSlider != null)
         {
-            scoreSlider.value = Mathf.Clamp01(inScore / 100.0f);
+            scoreSlider.value = Mathf.Clamp01(inScore / GameManager.instance.totalScore);
         }
     }
     public void OnPause()
