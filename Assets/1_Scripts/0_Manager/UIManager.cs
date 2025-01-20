@@ -53,7 +53,7 @@ public class UIManager : MonoBehaviour
     public void OnResume()
     {
         GameManager.instance.ResumeGame();
-        pauseObj.SetActive(false);   
+        pauseObj.SetActive(false);
     }
     public void OnRetry()
     {

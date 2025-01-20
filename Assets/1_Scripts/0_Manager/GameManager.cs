@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
     }
     public void RetryGame()
     {
+        ResumeGame();
         SceneManager.LoadScene(0);
     }
     public void QuitGame()

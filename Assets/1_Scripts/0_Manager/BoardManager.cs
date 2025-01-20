@@ -13,6 +13,10 @@ public class BoardManager : MonoBehaviour
         {
             instance = this;
         }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     [SerializeField] private int boardWidth = 8;
@@ -36,7 +40,6 @@ public class BoardManager : MonoBehaviour
 
         InitializeGrid();
     }
-
     private void InitializeGrid()
     {
         for (int x = 0; x < boardWidth; x++)
@@ -258,6 +261,7 @@ public class BoardManager : MonoBehaviour
     }
     private IEnumerator SwapPieceCor()
     {
+        //Debug.Log("SwapPieceCor Enter..");
         Vector3 firstPos = firstSelectedPiece.transform.position;
         Vector3 secondPos = secondSelectedPiece.transform.position;
 
@@ -281,6 +285,7 @@ public class BoardManager : MonoBehaviour
 
         // Piece의 Grid상의 데이터 변경
         UpdateGrid(firstSelectedPiece, secondSelectedPiece);
+        //Debug.Log("SwapPieceCor Exit..");
     }
     private void UpdateGrid(Piece inPiece1, Piece inPiece2)
     {
