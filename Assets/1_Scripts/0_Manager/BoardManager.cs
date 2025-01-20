@@ -191,18 +191,22 @@ public class BoardManager : MonoBehaviour
 
         // 중복 방지를 위해 HashSet 사용
         HashSet<GameObject> matches = new HashSet<GameObject>();
-
-        foreach (Piece piece in pieces)
+        if (matches != null)
         {
-            if (piece == null) { continue; }
+            foreach (Piece piece in pieces)
+            {
+                if (piece == null) { continue; }
 
-            matches.UnionWith(FindMatchesAt(piece.x, piece.y));
+                matches.UnionWith(FindMatchesAt(piece.x, piece.y));
+            }
         }
 
         return matches;
     }
     private HashSet<GameObject> FindMatchesAt(int x, int y)
     {
+        if (GameManager.instance.isPlaying == false) { return null; }
+
         HashSet<GameObject> matches = new HashSet<GameObject>();
 
         // 탐색 방향
@@ -231,6 +235,8 @@ public class BoardManager : MonoBehaviour
     }
     private void CheckMatchInDir(int x, int y, int dx, int dy, HashSet<GameObject> matches)
     {
+        if (GameManager.instance.isPlaying == false) { return; }
+
         if (IsValidCoordinate(x + 2 * dx, y + 2 * dy))
         {
             if (grid[x, y].name == grid[x + dx, y + dy].name &&
@@ -384,6 +390,8 @@ public class BoardManager : MonoBehaviour
     }
     private IEnumerator CheckAdditonalMatches()
     {
+        if (GameManager.instance.isPlaying == false) { yield return null; }
+
         while (true)
         {
             HashSet<GameObject> additionalMatches = new HashSet<GameObject>();
@@ -395,7 +403,11 @@ public class BoardManager : MonoBehaviour
                 {
                     if (grid[x, y] != null)
                     {
-                        additionalMatches.UnionWith(FindMatchesAt(x, y));
+                        HashSet<GameObject> tempMatches = FindMatchesAt(x, y);
+                        if (tempMatches != null)
+                        {
+                            additionalMatches.UnionWith(tempMatches);
+                        }
                     }
                 }
             }
