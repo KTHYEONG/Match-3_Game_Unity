@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
     }
     public void AddScore(int inPoints)
     {
-        score += inPoints;
+        score = (int)Mathf.Min(score + inPoints, totalScore);
         UIManager.instance.UpdateScoreUI(score);
         UIManager.instance.UpdateScoreSliderUI(score);
 
