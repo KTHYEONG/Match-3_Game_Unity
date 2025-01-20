@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public Transform pieceParent;
     public float totalScore;
     private int score;
+    public bool isPlaying;
 
     private void Start()
     {
@@ -27,8 +28,9 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        totalScore = 100.0f;
+        totalScore = 10.0f;
         score = 0;
+        isPlaying = true;
         BoardManager.instance.Init();
         UIManager.instance.Init();
     }
@@ -38,7 +40,7 @@ public class GameManager : MonoBehaviour
     }
     public void EndGame()
     {
-        
+        isPlaying = false;
     }
 
     public void AddScore(int inPoints)

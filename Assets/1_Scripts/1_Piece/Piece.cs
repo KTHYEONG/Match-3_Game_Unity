@@ -14,6 +14,9 @@ public class Piece : MonoBehaviour
     private void OnMouseDown()
     {
         //Debug.Log("Clicked on piece at " + x + ' ' + y);
-        BoardManager.instance.OnPieceClicked(this);
+        if (GameManager.instance.isPlaying)
+        {
+            BoardManager.instance.OnPieceClicked(this);
+        }
     }
 }
