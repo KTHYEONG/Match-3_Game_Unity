@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public Transform tileParent;
     public Transform pieceParent;
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip[] audioClips;
 
     public float totalScore;
     private int score;
