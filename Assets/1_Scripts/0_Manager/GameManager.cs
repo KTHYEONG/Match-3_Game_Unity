@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         isPlaying = false;
-        UIManager.instance.OnEndGame();
+        UIManager.instance.OnEndGame(score);
         bgmAudioSource.Stop();
     }
     public void RetryGame()

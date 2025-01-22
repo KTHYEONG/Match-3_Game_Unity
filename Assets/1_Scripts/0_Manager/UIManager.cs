@@ -1,5 +1,7 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -16,6 +18,9 @@ public class UIManager : MonoBehaviour
     private Toggle bgmToggle;
     [SerializeField] private GameObject sfxToggleObj;
     private Toggle sfxToggle;
+
+    [SerializeField] private GameObject endObj;
+    [SerializeField] private GameObject scoreObj;
 
     private void Awake()
     {
@@ -40,6 +45,7 @@ public class UIManager : MonoBehaviour
         sfxToggle.isOn = true;
 
         pauseObj.SetActive(false);
+        endObj.SetActive(false);
     }
 
     public void UpdateScoreUI(int inScore)
@@ -90,8 +96,10 @@ public class UIManager : MonoBehaviour
     {
         GameManager.instance.QuitGame();
     }
-    public void OnEndGame()
+    public void OnEndGame(int inScore)
     {
-
+        endObj.SetActive(true);
+        TextMeshProUGUI scoreText = scoreObj.GetComponent<TextMeshProUGUI>();
+        scoreText.text = inScore.ToString();
     }
 }
