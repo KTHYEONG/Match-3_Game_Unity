@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
     {
         isPlaying = false;
         UIManager.instance.OnEndGame();
+        audioSource.Stop();
     }
     public void RetryGame()
     {
