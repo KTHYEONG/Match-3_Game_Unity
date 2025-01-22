@@ -15,8 +15,8 @@ public class GameManager : MonoBehaviour
 
     public Transform tileParent;
     public Transform pieceParent;
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip[] audioClips;
+    [SerializeField] private AudioSource bgmAudioSource;
+    [SerializeField] private AudioSource sfxAudioSource;
 
     public float totalScore;
     private int score;
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     {
         isPlaying = false;
         UIManager.instance.OnEndGame();
-        audioSource.Stop();
+        bgmAudioSource.Stop();
     }
     public void RetryGame()
     {
@@ -77,16 +77,20 @@ public class GameManager : MonoBehaviour
             EndGame();
         }
     }
-    public void OnOrOffSound()
+    public void OnOrOffBgm()
     {
         UIManager.instance.OnSoundInput();
-        if (audioSource.isPlaying)
+        if (bgmAudioSource.isPlaying)
         {
-            audioSource.Stop();
+            bgmAudioSource.Stop();
         }
         else
         {
-            audioSource.Play();
+            bgmAudioSource.Play();
         }
+    }
+    public void OnSfxSound()
+    {
+        sfxAudioSource.Play();
     }
 }

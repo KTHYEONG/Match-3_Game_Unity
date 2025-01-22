@@ -16,6 +16,7 @@ public class Piece : MonoBehaviour
         //Debug.Log("Clicked on piece at " + x + ' ' + y);
         if (GameManager.instance.isPlaying)
         {
+            GameManager.instance.OnSfxSound();
             BoardManager.instance.OnPieceClicked(this);
         }
     }
