@@ -1427,7 +1427,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1230455338}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnOrOffSound
+        m_MethodName: OnOrOffBgm
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3175,7 +3175,7 @@ GameObject:
   - component: {fileID: 1608491635}
   - component: {fileID: 1608491636}
   m_Layer: 5
-  m_Name: ClickToggle
+  m_Name: SfxToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3250,7 +3250,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1230455338}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnOrOffSound
+        m_MethodName: OnOrOffSfx
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3368,7 +3368,8 @@ MonoBehaviour:
   scoreTextObj: {fileID: 1192025510}
   scoreSliderObj: {fileID: 1487535021}
   pauseObj: {fileID: 1254580213}
-  BgmToggleObj: {fileID: 891789199}
+  bgmToggleObj: {fileID: 891789199}
+  sfxToggleObj: {fileID: 1608491634}
 --- !u!4 &1675027774
 Transform:
   m_ObjectHideFlags: 0

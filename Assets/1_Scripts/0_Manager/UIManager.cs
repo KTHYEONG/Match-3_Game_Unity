@@ -11,8 +11,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject scoreSliderObj;
     private Slider scoreSlider;
     [SerializeField] private GameObject pauseObj;
-    [SerializeField] private GameObject BgmToggleObj;
-    private Toggle BgmToggle;
+
+    [SerializeField] private GameObject bgmToggleObj;
+    private Toggle bgmToggle;
+    [SerializeField] private GameObject sfxToggleObj;
+    private Toggle sfxToggle;
 
     private void Awake()
     {
@@ -30,8 +33,11 @@ public class UIManager : MonoBehaviour
         scoreSlider = scoreSliderObj.GetComponent<Slider>();
         scoreSlider.value = 0.0f;
 
-        BgmToggle = BgmToggleObj.GetComponent<Toggle>();
-        BgmToggle.isOn = true;
+        bgmToggle = bgmToggleObj.GetComponent<Toggle>();
+        bgmToggle.isOn = true;
+
+        sfxToggle = sfxToggleObj.GetComponent<Toggle>();
+        sfxToggle.isOn = true;
 
         pauseObj.SetActive(false);
     }
@@ -50,12 +56,20 @@ public class UIManager : MonoBehaviour
             scoreSlider.value = Mathf.Clamp01(inScore / GameManager.instance.totalScore);
         }
     }
-    public void OnSoundInput()
+    public void OnBgmInput()
     {
-        Text onOrOffText = BgmToggle.GetComponentInChildren<Text>();
+        Text onOrOffText = bgmToggle.GetComponentInChildren<Text>();
         if (onOrOffText != null)
         {
-            onOrOffText.text = BgmToggle.isOn ? "ON" : "OFF";
+            onOrOffText.text = bgmToggle.isOn ? "ON" : "OFF";
+        }
+    }
+    public void OnSfxInput()
+    {
+        Text onOrOffText = sfxToggle.GetComponentInChildren<Text>();
+        if (onOrOffText != null)
+        {
+            onOrOffText.text = sfxToggle.isOn ? "ON" : "OFF";
         }
     }
     public void OnPause()

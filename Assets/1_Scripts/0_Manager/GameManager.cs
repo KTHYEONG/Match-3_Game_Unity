@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
     private int score;
     public bool isPlaying;
 
-
     private void Start()
     {
         StartGame();
@@ -79,7 +78,7 @@ public class GameManager : MonoBehaviour
     }
     public void OnOrOffBgm()
     {
-        UIManager.instance.OnSoundInput();
+        UIManager.instance.OnBgmInput();
         if (bgmAudioSource.isPlaying)
         {
             bgmAudioSource.Stop();
@@ -89,8 +88,16 @@ public class GameManager : MonoBehaviour
             bgmAudioSource.Play();
         }
     }
+    public void OnOrOffSfx()
+    {
+        UIManager.instance.OnSfxInput();
+        sfxAudioSource.enabled = sfxAudioSource.enabled ? false : true;
+    }
     public void OnSfxSound()
     {
-        sfxAudioSource.Play();
+        if (sfxAudioSource.enabled)
+        {
+            sfxAudioSource.Play();
+        }
     }
 }
